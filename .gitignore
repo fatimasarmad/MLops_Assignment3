@@ -1,2 +1,4 @@
 /processed_data.csv
 /venv
+/logs
+/dags/__pycache__
