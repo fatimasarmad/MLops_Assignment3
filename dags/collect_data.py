@@ -14,25 +14,25 @@ API_KEY = "54afb5199a1902651e15221e0dd280d7"
 CITY = "Lahore"  # or your desired city
 URL = f"http://api.openweathermap.org/data/2.5/forecast?q={CITY}&appid={API_KEY}&units=metric"
 
-response = requests.get(URL)
-data = response.json()
+def collect_data(source_file='raw_data.csv', target_file='collected_data.csv'):
+    response = requests.get(URL)
+    data = response.json()
 
-if data.get("cod") != "200":
-    print(f"Error: {data.get('message', 'Unknown error')}")
-else:
-    # Create a CSV file and save the data
-    with open("raw_data.csv", mode="w", newline="") as file:
+    if data.get("cod") != "200":
+        print(f"Error: {data.get('message', 'Unknown error')}")
+        return
+
+    with open(target_file, mode="w", newline="") as file:
         writer = csv.writer(file)
         writer.writerow(["Date and Time", "Temperature (°C)", "Humidity (%)", "Wind Speed (m/s)", "Weather Condition"])
 
         for entry in data["list"]:
-            dt_txt = entry["dt_txt"]  # Date and time of forecast
-            temp = entry["main"]["temp"]  # Temperature
-            humidity = entry["main"]["humidity"]  # Humidity
-            wind_speed = entry["wind"]["speed"]  # Wind speed
-            condition = entry["weather"][0]["description"]  # Weather condition
+            dt_txt = entry["dt_txt"]
+            temp = entry["main"]["temp"]
+            humidity = entry["main"]["humidity"]
+            wind_speed = entry["wind"]["speed"]
+            condition = entry["weather"][0]["description"]
 
-            # Write data to CSV
             writer.writerow([dt_txt, temp, humidity, wind_speed, condition])
 
-print("✅ Weather data saved to raw_data.csv")
+    print(f"✅ Weather data saved to {target_file}")
