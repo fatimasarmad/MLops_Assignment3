@@ -1,0 +1,21 @@
+stages:
+  collect_data:
+    cmd: python dags/collect_data.py
+    deps:
+      - dags/collect_data.py
+
+  preprocess:
+    cmd: python dags/preprocess_data.py raw_data.csv processed_data.csv
+    deps:
+      - dags/preprocess_data.py
+      - raw_data.csv
+    outs:
+      - processed_data.csv
+
+  train_model:
+    cmd: python train_model.py processed_data.csv model.pkl
+    deps:
+      - train_model.py
+      - processed_data.csv
+    outs:
+      - model.pkl

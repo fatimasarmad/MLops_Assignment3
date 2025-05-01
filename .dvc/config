@@ -2,4 +2,5 @@
     remote = mygdrive
 ['remote "mygdrive"']
     url = gdrive://1TmSXi48rFkLz3gtLxbt6kdQTDqlQ-_Hi
-    gdrive_use_service_account = false
+    gdrive_use_service_account = true
+    gdrive_service_account_json_file_path = ../propane-galaxy-458515-c2-fb59588c5009.json

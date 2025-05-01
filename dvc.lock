@@ -1,0 +1,41 @@
+schema: '2.0'
+stages:
+  collect_data:
+    cmd: python dags/collect_data.py
+    deps:
+    - path: dags/collect_data.py
+      hash: md5
+      md5: 3a18aeb5198114fa4b1752af742fe09f
+      size: 1271
+  preprocess:
+    cmd: python dags/preprocess_data.py raw_data.csv processed_data.csv
+    deps:
+    - path: dags/preprocess_data.py
+      hash: md5
+      md5: 237476742e522db2f386f971eec5c10b
+      size: 2836
+    - path: raw_data.csv
+      hash: md5
+      md5: d957335d2b6945bcfc4a8989bc949f1e
+      size: 1993
+    outs:
+    - path: processed_data.csv
+      hash: md5
+      md5: bb8d2b408bd3d9b46c9659110e57ffe0
+      size: 5486
+  train_model:
+    cmd: python train_model.py processed_data.csv model.pkl
+    deps:
+    - path: processed_data.csv
+      hash: md5
+      md5: bb8d2b408bd3d9b46c9659110e57ffe0
+      size: 5486
+    - path: train_model.py
+      hash: md5
+      md5: 8beace751ab74a1fb1c4503916b6bbd0
+      size: 556
+    outs:
+    - path: model.pkl
+      hash: md5
+      md5: ed82e15140d93474f3941b65736e53a8
+      size: 557
